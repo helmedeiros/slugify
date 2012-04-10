@@ -4,8 +4,86 @@
   <head>
     <meta charset="UTF-8">
     <title>Slugify</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
+    <header class="container">
+      <h1>Slugify</h1>
+
+      <p class="lead">
+        Ferramenta simples para gerar urls amigáveis. Informe o texto desejado no campo abaixo para convertê-lo:
+      </p>
+    </header>
+
+    <main class="container">
+      <div class="input-group input-group-lg">
+        <input type="text"  placeholder="Texto" class="form-control slug-input">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-primary slug-convert">Converter</button>
+        </span>
+      </div>
+      <br>
+      <div class="alert alert-success slug-alert hidden" role="alert">
+        <samp class="slug-output">adas-das-dasd-asda-</samp>
+      </div>
+    </main>
+
     <script src="lib/slugify.js"></script>
+
+    <script>
+      !function() {
+        'use strict';
+
+        var dom = {
+          alert: '.slug-alert',
+          convert: '.slug-convert',
+          input: '.slug-input',
+          output: '.slug-output'
+        };
+
+        var bind = function() {
+          dom.convert.addEventListener('click', convert);
+        };
+
+        var cache = function() {
+          dom.alert = document.querySelector(dom.alert);
+          dom.convert = document.querySelector(dom.convert);
+          dom.input = document.querySelector(dom.input);
+          dom.output = document.querySelector(dom.output);
+        };
+
+        var convert = function() {
+          var range;
+          var selection;
+          var string = dom.input.value;
+
+          dom.alert.classList.remove('hidden');
+          dom.output.innerHTML = slugify(string);
+
+          if (document.body.createTextRange) {
+            range = document.body.createTextRange();
+
+            range.moveToElementText(dom.output);
+            range.select();
+          } else if (window.getSelection) {
+            range = document.createRange();
+            selection = window.getSelection();
+
+            range.selectNodeContents(dom.output);
+            selection.removeAllRanges();
+            selection.addRange(range);
+          }
+        };
+
+        var main = function() {
+          cache();
+          bind();
+        };
+
+        document.addEventListener('DOMContentLoaded', main);
+      }();
+    </script>
   </body>
 </html>
