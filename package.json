@@ -4,6 +4,8 @@
   },
   "author": "Helio Medeiros <helio.cabralmedeiros@gmail.com>",
   "homepage": "https://github.com/helmedeiros/slugify",
+  "description": "friendly url slugs for many alphabets",
+  "keywords": ["slug", "slugify", "url", "diacritics", "i18n"],
   "private": true,
   "scripts": {
     "test": "node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json"
