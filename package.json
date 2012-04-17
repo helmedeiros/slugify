@@ -6,6 +6,14 @@
   "homepage": "https://github.com/helmedeiros/slugify",
   "description": "friendly url slugs for many alphabets",
   "keywords": ["slug", "slugify", "url", "diacritics", "i18n"],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/helmedeiros/slugify.git"
+  },
+  "bugs": {
+    "url": "https://github.com/helmedeiros/slugify/issues"
+  },
+  "license": "MIT",
   "private": true,
   "scripts": {
     "test": "node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json"
