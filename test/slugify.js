@@ -31,4 +31,8 @@ describe('slugify', function() {
   it("should keep digits only input", function() {
     expect(slugify("12345")).toBe("12345");
   });
+
+  it("should trim trailing whitespace", function() {
+    expect(slugify("hello   ")).toBe("hello");
+  });
 });
