@@ -19,4 +19,8 @@ describe('slugify', function() {
       };
     })(key, value));
   });
+
+  it("should return empty string for empty input", function() {
+    expect(slugify("")).toBe("");
+  });
 });
