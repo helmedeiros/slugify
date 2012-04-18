@@ -27,4 +27,8 @@ describe('slugify', function() {
   it("should be idempotent for already slugified input", function() {
     expect(slugify("hello-world")).toBe("hello-world");
   });
+
+  it("should keep digits only input", function() {
+    expect(slugify("12345")).toBe("12345");
+  });
 });
