@@ -23,4 +23,8 @@ describe('slugify', function() {
   it("should return empty string for empty input", function() {
     expect(slugify("")).toBe("");
   });
+
+  it("should be idempotent for already slugified input", function() {
+    expect(slugify("hello-world")).toBe("hello-world");
+  });
 });
