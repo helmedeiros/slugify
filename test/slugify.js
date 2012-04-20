@@ -35,4 +35,8 @@ describe('slugify', function() {
   it("should trim trailing whitespace", function() {
     expect(slugify("hello   ")).toBe("hello");
   });
+
+  it("should drop leading symbols", function() {
+    expect(slugify("!!!hello")).toBe("hello");
+  });
 });
