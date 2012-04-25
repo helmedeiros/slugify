@@ -1,6 +1,8 @@
 {
   "devDependencies": {
-    "jasmine": "^2.2.1"
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.0",
+    "jasmine-node": "~1.11.0"
   },
   "author": "Helio Medeiros <helio.cabralmedeiros@gmail.com>",
   "homepage": "https://github.com/helmedeiros/slugify",
