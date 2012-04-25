@@ -18,7 +18,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json"
+    "test": "node_modules/.bin/jasmine-node test"
   },
   "version": "0.0.1"
 }
