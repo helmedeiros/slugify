@@ -6,10 +6,16 @@ module.exports = function(grunt) {
     jshint: {
       options: { jshintrc: '.jshintrc' },
       all: ['lib/**/*.js', 'test/**/*.js', 'Gruntfile.js']
+    },
+    jasmine_node: {
+      options: { specFolders: ['test'] },
+      all: []
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-jasmine-node');
 
-  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('test', ['jasmine_node']);
+  grunt.registerTask('default', ['jshint', 'test']);
 };
