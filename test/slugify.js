@@ -39,4 +39,8 @@ describe('slugify', function() {
   it("should drop leading symbols", function() {
     expect(slugify("!!!hello")).toBe("hello");
   });
+
+  it("should respect a custom separator", function() {
+    expect(slugify("hello world", {separator: "_"})).toBe("hello_world");
+  });
 });
