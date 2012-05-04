@@ -16,3 +16,7 @@ npm install
 var slugify = require('slugify');
 slugify('Olá mundo');
 ```
+
+## options
+
+- `separator` — string between words. defaults to `-`.
