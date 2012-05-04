@@ -9,3 +9,10 @@ simple tool to generate friendly urls. [check it out](http://rbsdev.github.io/sl
 ```
 npm install
 ```
+
+## usage
+
+```js
+var slugify = require('slugify');
+slugify('Olá mundo');
+```
