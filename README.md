@@ -21,3 +21,4 @@ slugify('Olá mundo');
 
 - `separator` — string between words. defaults to `-`.
 - `lowercase` — set to `false` to preserve case. defaults to `true`.
+- `punctuation` — `strip`, `replace`, or `keep`. defaults to `strip`.
