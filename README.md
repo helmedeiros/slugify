@@ -20,3 +20,4 @@ slugify('Olá mundo');
 ## options
 
 - `separator` — string between words. defaults to `-`.
+- `lowercase` — set to `false` to preserve case. defaults to `true`.
