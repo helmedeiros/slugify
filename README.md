@@ -23,3 +23,4 @@ slugify('Olá mundo');
 - `lowercase` — set to `false` to preserve case. defaults to `true`.
 - `punctuation` — `strip`, `replace`, or `keep`. defaults to `strip`.
 - `symbols` — symbol-to-word table or locale code, set to `false` to disable.
+- `locale` — language code (`en`, `pt`, `de`, `fr`, `es`, `tr`). drives transliteration and symbol words.
