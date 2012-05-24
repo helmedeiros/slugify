@@ -24,3 +24,5 @@ slugify('Olá mundo');
 - `punctuation` — `strip`, `replace`, or `keep`. defaults to `strip`.
 - `symbols` — symbol-to-word table or locale code, set to `false` to disable.
 - `locale` — language code (`en`, `pt`, `de`, `fr`, `es`, `tr`). drives transliteration and symbol words.
+- `maxLength` — maximum slug length. defaults to `0` (no limit).
+- `truncate` — `word` (default) or `hard`.
