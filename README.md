@@ -26,3 +26,7 @@ slugify('Olá mundo');
 - `locale` — language code (`en`, `pt`, `de`, `fr`, `es`, `tr`). drives transliteration and symbol words.
 - `maxLength` — maximum slug length. defaults to `0` (no limit).
 - `truncate` — `word` (default) or `hard`.
+- `removeStopWords` — `true` (uses locale list) or a string locale or boolean. defaults to `false`.
+- `stopWords` — custom array overriding locale list.
+- `prioritizeKeywords` — number of tokens to retain. `0` keeps all.
+- `preserveOrder` — keep original order when prioritizing. defaults to `true`.
