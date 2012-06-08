@@ -35,3 +35,11 @@ slugify('Olá mundo');
 - `protectReserved` — disable reserved-word handling by setting to `false`.
 - `customRules` — array of regex rules `{pattern, replacement}` or functions.
 - `debug` — return `{slug, trace}` for migrations and debugging.
+
+## url collisions
+
+```js
+var tracker = slugify.tracker();
+tracker('My Article'); // 'my-article'
+tracker('My Article'); // 'my-article-2'
+```
