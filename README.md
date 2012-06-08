@@ -30,3 +30,8 @@ slugify('Olá mundo');
 - `stopWords` — custom array overriding locale list.
 - `prioritizeKeywords` — number of tokens to retain. `0` keeps all.
 - `preserveOrder` — keep original order when prioritizing. defaults to `true`.
+- `reservedWords` — array of words that should not become slugs alone.
+- `reservedSuffix` — suffix used when a reserved word is detected. defaults to `page`.
+- `protectReserved` — disable reserved-word handling by setting to `false`.
+- `customRules` — array of regex rules `{pattern, replacement}` or functions.
+- `debug` — return `{slug, trace}` for migrations and debugging.
