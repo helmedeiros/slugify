@@ -43,3 +43,12 @@ var tracker = slugify.tracker();
 tracker('My Article'); // 'my-article'
 tracker('My Article'); // 'my-article-2'
 ```
+
+## pipeline
+
+```js
+var steps = slugify.pipeline([
+  function(s) { return s.trim(); },
+  function(s) { return s.toUpperCase(); }
+]);
+```
