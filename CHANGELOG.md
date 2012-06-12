@@ -14,3 +14,13 @@
 - symbol words.
 - locale overrides with fallback chain.
 - max length and word-boundary truncation.
+
+## 0.3.0
+
+- stop word removal.
+- keyword prioritization.
+- url collision tracker.
+- reserved word protection.
+- custom and regex rules.
+- pipeline composition.
+- reversible debug metadata.
