@@ -56,3 +56,7 @@ var steps = slugify.pipeline([
 ## contributing
 
 see [CONTRIBUTING](CONTRIBUTING.md).
+
+## license
+
+[MIT](LICENSE).
