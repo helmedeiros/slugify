@@ -52,3 +52,7 @@ var steps = slugify.pipeline([
   function(s) { return s.toUpperCase(); }
 ]);
 ```
+
+## contributing
+
+see [CONTRIBUTING](CONTRIBUTING.md).
