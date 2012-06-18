@@ -3,88 +3,98 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Slugify: gerador de URLs amigáveis.">
-    <meta name="author" content="Helio Medeiros">
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <title>Slugify</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Slugify: gerador de URLs amigáveis com opções de internacionalização, SEO e controle de colisões.">
+    <meta name="author" content="Helio Medeiros">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="css/demo.css" rel="stylesheet">
   </head>
   <body>
     <header class="container">
       <h1>Slugify</h1>
-
       <p class="lead">Ferramenta simples para gerar URLs amigáveis. Digite o texto e veja a conversão.</p>
     </header>
 
     <main class="container">
+      <div class="slug-version">
+        <label for="slug-version-select">versão</label>
+        <select id="slug-version-select" class="form-control">
+          <option value="current" selected>atual</option>
+          <option value="0.3.0">0.3.0</option>
+          <option value="0.2.0">0.2.0</option>
+          <option value="0.1.0">0.1.0</option>
+        </select>
+      </div>
+
       <div class="input-group input-group-lg">
-        <input type="text"  placeholder="Texto" class="form-control slug-input">
+        <input type="text" aria-label="Texto" placeholder="Texto" class="form-control slug-input">
         <span class="input-group-btn">
           <button type="button" class="btn btn-primary slug-convert">Converter</button>
         </span>
       </div>
-      <br>
-      <div class="alert alert-success slug-alert hidden" role="alert">
-        <samp class="slug-output">adas-das-dasd-asda-</samp>
+
+      <div class="alert alert-success slug-alert hidden" role="alert" aria-live="polite">
+        <samp class="slug-output"></samp>
+      </div>
+
+      <div class="slug-options">
+        <div class="row">
+          <div class="form-group col-sm-4">
+            <label>separador</label>
+            <input type="text" class="form-control" id="opt-separator" value="-">
+          </div>
+          <div class="form-group col-sm-4">
+            <label>idioma</label>
+            <select class="form-control" id="opt-locale">
+              <option value="en">en</option>
+              <option value="pt" selected>pt</option>
+              <option value="de">de</option>
+              <option value="fr">fr</option>
+              <option value="es">es</option>
+              <option value="tr">tr</option>
+            </select>
+          </div>
+          <div class="form-group col-sm-4">
+            <label>pontuação</label>
+            <select class="form-control" id="opt-punctuation">
+              <option value="strip" selected>strip</option>
+              <option value="replace">replace</option>
+              <option value="keep">keep</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-4">
+            <label>tamanho máximo</label>
+            <input type="number" class="form-control" id="opt-maxlength" value="0" min="0">
+          </div>
+          <div class="form-group col-sm-4">
+            <label><input type="checkbox" id="opt-lowercase" checked> minúsculas</label>
+          </div>
+          <div class="form-group col-sm-4">
+            <label><input type="checkbox" id="opt-stopwords"> remover stop words</label>
+          </div>
+        </div>
       </div>
     </main>
 
+    <section class="container">
+      <h2>sobre</h2>
+      <p>Slugify converte texto para o formato amigável usado em URLs. Suporta múltiplos alfabetos, regras por idioma, controle de colisões, palavras reservadas e regras customizadas.</p>
+    </section>
+
+    <footer class="container">
+      <p>feito com carinho. <a href="https://github.com/helmedeiros/slugify">código no github</a>.</p>
+    </footer>
+
     <script src="lib/slugify.js"></script>
-
-    <script>
-      !function() {
-        'use strict';
-
-        var dom = {
-          alert: '.slug-alert',
-          convert: '.slug-convert',
-          input: '.slug-input',
-          output: '.slug-output'
-        };
-
-        var bind = function() {
-          dom.convert.addEventListener('click', convert);
-        };
-
-        var cache = function() {
-          dom.alert = document.querySelector(dom.alert);
-          dom.convert = document.querySelector(dom.convert);
-          dom.input = document.querySelector(dom.input);
-          dom.output = document.querySelector(dom.output);
-        };
-
-        var convert = function() {
-          var range;
-          var selection;
-          var string = dom.input.value;
-
-          dom.alert.classList.remove('hidden');
-          dom.output.innerHTML = slugify(string);
-
-          if (document.body.createTextRange) {
-            range = document.body.createTextRange();
-
-            range.moveToElementText(dom.output);
-            range.select();
-          } else if (window.getSelection) {
-            range = document.createRange();
-            selection = window.getSelection();
-
-            range.selectNodeContents(dom.output);
-            selection.removeAllRanges();
-            selection.addRange(range);
-          }
-        };
-
-        var main = function() {
-          cache();
-          bind();
-        };
-
-        document.addEventListener('DOMContentLoaded', main);
-      }();
-    </script>
+    <script src="versions/0.1.0/slugify.js"></script>
+    <script src="versions/0.2.0/slugify.js"></script>
+    <script src="versions/0.3.0/slugify.js"></script>
+    <script src="js/demo.js"></script>
   </body>
 </html>
