@@ -60,3 +60,7 @@ see [CONTRIBUTING](CONTRIBUTING.md).
 ## license
 
 [MIT](LICENSE).
+
+## demo
+
+try it live at [helmedeiros.github.io/slugify](https://helmedeiros.github.io/slugify). switch versions to compare old and new behaviour.
