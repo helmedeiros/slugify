@@ -24,3 +24,8 @@
 - custom and regex rules.
 - pipeline composition.
 - reversible debug metadata.
+
+## unreleased
+
+- broader integration coverage.
+- homepage version picker with historical builds.
