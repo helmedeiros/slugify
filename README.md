@@ -64,3 +64,10 @@ see [CONTRIBUTING](CONTRIBUTING.md).
 ## demo
 
 try it live at [helmedeiros.github.io/slugify](https://helmedeiros.github.io/slugify). switch versions to compare old and new behaviour.
+
+## development
+
+```
+npm install
+grunt
+```
