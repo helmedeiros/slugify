@@ -22,14 +22,26 @@
     </header>
 
     <main class="container">
-      <div class="slug-version">
-        <label for="slug-version-select">versão</label>
-        <select id="slug-version-select" class="form-control">
-          <option value="current" selected>atual</option>
-          <option value="0.3.0">0.3.0</option>
-          <option value="0.2.0">0.2.0</option>
-          <option value="0.1.0">0.1.0</option>
-        </select>
+      <div class="row slug-pickers">
+        <div class="col-sm-6">
+          <label for="slug-version-select">versão atual</label>
+          <select id="slug-version-select" class="form-control">
+            <option value="current" selected>current</option>
+            <option value="0.3.0">0.3.0</option>
+            <option value="0.2.0">0.2.0</option>
+            <option value="0.1.0">0.1.0</option>
+          </select>
+        </div>
+        <div class="col-sm-6">
+          <label for="slug-compare-select">comparar com</label>
+          <select id="slug-compare-select" class="form-control">
+            <option value="" selected>—</option>
+            <option value="current">current</option>
+            <option value="0.3.0">0.3.0</option>
+            <option value="0.2.0">0.2.0</option>
+            <option value="0.1.0">0.1.0</option>
+          </select>
+        </div>
       </div>
 
       <div class="input-group input-group-lg">
@@ -41,6 +53,12 @@
 
       <div class="alert alert-success slug-alert hidden" role="alert" aria-live="polite">
         <samp class="slug-output"></samp>
+      </div>
+
+      <div class="alert alert-info slug-alert-compare hidden" role="alert" aria-live="polite">
+        <small class="slug-compare-label"></small>
+        <br>
+        <samp class="slug-compare-output"></samp>
       </div>
 
       <div class="slug-options">
