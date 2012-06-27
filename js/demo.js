@@ -52,11 +52,25 @@
     renderCompare(options);
   };
 
+  var copyToClipboard = function(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text);
+      return;
+    }
+    var temp = document.createElement('textarea');
+    temp.value = text;
+    document.body.appendChild(temp);
+    temp.select();
+    try { document.execCommand('copy'); } catch (e) { }
+    document.body.removeChild(temp);
+  };
+
   var cache = function() {
     dom.alert = document.querySelector('.slug-alert');
     dom.convert = document.querySelector('.slug-convert');
     dom.input = document.querySelector('.slug-input');
     dom.output = document.querySelector('.slug-output');
+    dom.copy = document.querySelector('.slug-copy');
     dom.compareAlert = document.querySelector('.slug-alert-compare');
     dom.compareLabel = document.querySelector('.slug-compare-label');
     dom.compareOutput = document.querySelector('.slug-compare-output');
@@ -73,6 +87,7 @@
   var bind = function() {
     dom.convert.addEventListener('click', convert);
     dom.input.addEventListener('input', convert);
+    dom.copy.addEventListener('click', function() { copyToClipboard(dom.output.textContent); });
     [dom.version, dom.compare, dom.separator, dom.locale, dom.punctuation, dom.maxLength, dom.lowercase, dom.stopwords].forEach(function(el) {
       el.addEventListener('change', convert);
     });
