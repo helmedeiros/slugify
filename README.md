@@ -1,5 +1,7 @@
 # slugify
 
+friendly url slugs for many alphabets, with i18n, SEO, and developer-friendly options.
+
 [![build status](https://travis-ci.org/helmedeiros/slugify.svg?branch=master)](https://travis-ci.org/helmedeiros/slugify)
 
 simple tool to generate friendly urls. [check it out](https://helmedeiros.github.io/slugify/).
