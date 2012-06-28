@@ -1,6 +1,9 @@
 !function() {
   'use strict';
 
+  var HISTORY_KEY = 'slugify-demo-history';
+  var HISTORY_LIMIT = 8;
+
   var dom = {};
 
   var versions = function() {
@@ -65,6 +68,50 @@
     dom.alert.classList.remove('hidden');
     renderTrace(primary.trace);
     renderCompare(options);
+    if (dom.input.value && primary.slug) {
+      pushHistory({text: dom.input.value, slug: primary.slug, at: new Date().toISOString()});
+      renderHistory();
+    }
+  };
+
+  var loadHistory = function() {
+    try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
+    catch (e) { return []; }
+  };
+
+  var saveHistory = function(list) {
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(list)); }
+    catch (e) { }
+  };
+
+  var pushHistory = function(entry) {
+    var list = loadHistory();
+    if (list[0] && list[0].text === entry.text && list[0].slug === entry.slug) { return; }
+    list.unshift(entry);
+    if (list.length > HISTORY_LIMIT) { list.length = HISTORY_LIMIT; }
+    saveHistory(list);
+  };
+
+  var renderHistory = function() {
+    var list = loadHistory();
+    if (list.length === 0) {
+      dom.history.classList.add('hidden');
+      return;
+    }
+    dom.history.classList.remove('hidden');
+    dom.historyList.innerHTML = '';
+    list.forEach(function(item) {
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'btn btn-default btn-xs slug-history-chip';
+      chip.textContent = item.slug;
+      chip.title = item.text;
+      chip.addEventListener('click', function() {
+        dom.input.value = item.text;
+        convert();
+      });
+      dom.historyList.appendChild(chip);
+    });
   };
 
   var copyToClipboard = function(text) {
@@ -90,6 +137,9 @@
     dom.compareLabel = document.querySelector('.slug-compare-label');
     dom.compareOutput = document.querySelector('.slug-compare-output');
     dom.trace = document.querySelector('.slug-trace');
+    dom.history = document.querySelector('.slug-history');
+    dom.historyList = document.querySelector('.slug-history-list');
+    dom.historyClear = document.querySelector('.slug-history-clear');
     dom.version = document.getElementById('slug-version-select');
     dom.compare = document.getElementById('slug-compare-select');
     dom.separator = document.getElementById('opt-separator');
@@ -105,6 +155,7 @@
     dom.convert.addEventListener('click', convert);
     dom.input.addEventListener('input', convert);
     dom.copy.addEventListener('click', function() { copyToClipboard(dom.output.textContent); });
+    dom.historyClear.addEventListener('click', function() { saveHistory([]); renderHistory(); });
     [dom.version, dom.compare, dom.separator, dom.locale, dom.punctuation, dom.maxLength, dom.lowercase, dom.stopwords, dom.debug].forEach(function(el) {
       el.addEventListener('change', convert);
     });
@@ -113,6 +164,7 @@
   var main = function() {
     cache();
     bind();
+    renderHistory();
     dom.input.focus();
   };
 
