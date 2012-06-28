@@ -71,13 +71,14 @@
       </div>
 
       <div class="slug-options">
+        <h3>opções</h3>
         <div class="row">
-          <div class="form-group col-sm-4">
-            <label>separador</label>
+          <div class="form-group col-sm-3">
+            <label for="opt-separator">separador</label>
             <input type="text" class="form-control" id="opt-separator" value="-">
           </div>
-          <div class="form-group col-sm-4">
-            <label>idioma</label>
+          <div class="form-group col-sm-3">
+            <label for="opt-locale">idioma</label>
             <select class="form-control" id="opt-locale">
               <option value="en">en</option>
               <option value="pt" selected>pt</option>
@@ -87,30 +88,67 @@
               <option value="tr">tr</option>
             </select>
           </div>
-          <div class="form-group col-sm-4">
-            <label>pontuação</label>
+          <div class="form-group col-sm-3">
+            <label for="opt-punctuation">pontuação</label>
             <select class="form-control" id="opt-punctuation">
               <option value="strip" selected>strip</option>
               <option value="replace">replace</option>
               <option value="keep">keep</option>
             </select>
           </div>
+          <div class="form-group col-sm-3">
+            <label for="opt-truncate">truncamento</label>
+            <select class="form-control" id="opt-truncate">
+              <option value="word" selected>word boundary</option>
+              <option value="hard">hard</option>
+            </select>
+          </div>
         </div>
         <div class="row">
-          <div class="form-group col-sm-4">
-            <label>tamanho máximo</label>
+          <div class="form-group col-sm-3">
+            <label for="opt-maxlength">tamanho máximo</label>
             <input type="number" class="form-control" id="opt-maxlength" value="0" min="0">
           </div>
-          <div class="form-group col-sm-4">
-            <label><input type="checkbox" id="opt-lowercase" checked> minúsculas</label>
+          <div class="form-group col-sm-3">
+            <label for="opt-priority">prioridade (top N)</label>
+            <input type="number" class="form-control" id="opt-priority" value="0" min="0">
           </div>
-          <div class="form-group col-sm-4">
-            <label><input type="checkbox" id="opt-stopwords"> remover stop words</label>
+          <div class="form-group col-sm-3">
+            <label for="opt-reservedsuffix">sufixo reservado</label>
+            <input type="text" class="form-control" id="opt-reservedsuffix" value="page">
+          </div>
+          <div class="form-group col-sm-3">
+            <label for="opt-symbolslocale">símbolos</label>
+            <select class="form-control" id="opt-symbolslocale">
+              <option value="false" selected>desligado</option>
+              <option value="true">do idioma</option>
+              <option value="en">en</option>
+              <option value="pt">pt</option>
+              <option value="de">de</option>
+              <option value="fr">fr</option>
+              <option value="es">es</option>
+              <option value="tr">tr</option>
+            </select>
           </div>
         </div>
         <div class="row">
-          <div class="form-group col-sm-4">
+          <div class="form-group col-sm-3">
+            <label><input type="checkbox" id="opt-lowercase" checked> minúsculas</label>
+          </div>
+          <div class="form-group col-sm-3">
+            <label><input type="checkbox" id="opt-stopwords"> remover stop words</label>
+          </div>
+          <div class="form-group col-sm-3">
+            <label><input type="checkbox" id="opt-reserved" checked> proteger reservadas</label>
+          </div>
+          <div class="form-group col-sm-3">
             <label><input type="checkbox" id="opt-debug"> rastrear (debug)</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-12">
+            <label for="opt-customrules">regras customizadas <small>(uma por linha, formato <code>/pattern/flags =&gt; replacement</code>)</small></label>
+            <textarea class="form-control" id="opt-customrules" rows="3" placeholder="/world/g => galaxy"></textarea>
           </div>
         </div>
       </div>

@@ -15,15 +15,44 @@
     };
   };
 
+  var parseCustomRules = function(text) {
+    if (!text) { return []; }
+    return text.split('\n').reduce(function(rules, line) {
+      var trimmed = line.replace(/^\s+|\s+$/g, '');
+      if (!trimmed) { return rules; }
+      var arrow = trimmed.indexOf('=>');
+      if (arrow === -1) { return rules; }
+      var left = trimmed.slice(0, arrow).replace(/\s+$/, '');
+      var right = trimmed.slice(arrow + 2).replace(/^\s+/, '');
+      var match = left.match(/^\/(.*)\/([gimsy]*)$/);
+      if (!match) { return rules; }
+      try {
+        rules.push({pattern: new RegExp(match[1], match[2]), replacement: right});
+      } catch (e) { }
+      return rules;
+    }, []);
+  };
+
+  var coerceSymbols = function(value) {
+    if (value === 'false') { return false; }
+    if (value === 'true') { return true; }
+    return value;
+  };
+
   var getOptions = function() {
     return {
       separator: dom.separator.value || '-',
       locale: dom.locale.value,
       punctuation: dom.punctuation.value,
+      truncate: dom.truncate.value,
       maxLength: parseInt(dom.maxLength.value, 10) || 0,
+      prioritizeKeywords: parseInt(dom.priority.value, 10) || 0,
+      reservedSuffix: dom.reservedSuffix.value || 'page',
+      protectReserved: dom.reserved.checked,
+      symbols: coerceSymbols(dom.symbols.value),
       lowercase: dom.lowercase.checked,
       removeStopWords: dom.stopwords.checked,
-      symbols: dom.locale.value,
+      customRules: parseCustomRules(dom.customRules.value),
       debug: dom.debug.checked
     };
   };
@@ -145,10 +174,16 @@
     dom.separator = document.getElementById('opt-separator');
     dom.locale = document.getElementById('opt-locale');
     dom.punctuation = document.getElementById('opt-punctuation');
+    dom.truncate = document.getElementById('opt-truncate');
     dom.maxLength = document.getElementById('opt-maxlength');
+    dom.priority = document.getElementById('opt-priority');
+    dom.reservedSuffix = document.getElementById('opt-reservedsuffix');
+    dom.symbols = document.getElementById('opt-symbolslocale');
     dom.lowercase = document.getElementById('opt-lowercase');
     dom.stopwords = document.getElementById('opt-stopwords');
+    dom.reserved = document.getElementById('opt-reserved');
     dom.debug = document.getElementById('opt-debug');
+    dom.customRules = document.getElementById('opt-customrules');
   };
 
   var bind = function() {
@@ -156,9 +191,10 @@
     dom.input.addEventListener('input', convert);
     dom.copy.addEventListener('click', function() { copyToClipboard(dom.output.textContent); });
     dom.historyClear.addEventListener('click', function() { saveHistory([]); renderHistory(); });
-    [dom.version, dom.compare, dom.separator, dom.locale, dom.punctuation, dom.maxLength, dom.lowercase, dom.stopwords, dom.debug].forEach(function(el) {
+    [dom.version, dom.compare, dom.separator, dom.locale, dom.punctuation, dom.truncate, dom.maxLength, dom.priority, dom.reservedSuffix, dom.symbols, dom.lowercase, dom.stopwords, dom.reserved, dom.debug].forEach(function(el) {
       el.addEventListener('change', convert);
     });
+    dom.customRules.addEventListener('input', convert);
   };
 
   var main = function() {
