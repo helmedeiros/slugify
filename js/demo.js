@@ -1,6 +1,7 @@
 !function() {
   'use strict';
 
+  var STORAGE_KEY = 'slugify-demo-state';
   var HISTORY_KEY = 'slugify-demo-history';
   var HISTORY_LIMIT = 8;
 
@@ -39,22 +40,109 @@
     return value;
   };
 
-  var getOptions = function() {
+  var collectState = function() {
     return {
-      separator: dom.separator.value || '-',
+      text: dom.input.value,
+      version: dom.version.value,
+      compare: dom.compare.value,
+      separator: dom.separator.value,
       locale: dom.locale.value,
       punctuation: dom.punctuation.value,
       truncate: dom.truncate.value,
-      maxLength: parseInt(dom.maxLength.value, 10) || 0,
-      prioritizeKeywords: parseInt(dom.priority.value, 10) || 0,
-      reservedSuffix: dom.reservedSuffix.value || 'page',
-      protectReserved: dom.reserved.checked,
-      symbols: coerceSymbols(dom.symbols.value),
+      maxLength: dom.maxLength.value,
+      priority: dom.priority.value,
+      reservedSuffix: dom.reservedSuffix.value,
+      symbols: dom.symbols.value,
       lowercase: dom.lowercase.checked,
-      removeStopWords: dom.stopwords.checked,
-      customRules: parseCustomRules(dom.customRules.value),
-      debug: dom.debug.checked
+      stopwords: dom.stopwords.checked,
+      reserved: dom.reserved.checked,
+      debug: dom.debug.checked,
+      customRules: dom.customRules.value
     };
+  };
+
+  var optionsFromState = function(state) {
+    return {
+      separator: state.separator || '-',
+      locale: state.locale,
+      punctuation: state.punctuation,
+      truncate: state.truncate,
+      maxLength: parseInt(state.maxLength, 10) || 0,
+      prioritizeKeywords: parseInt(state.priority, 10) || 0,
+      reservedSuffix: state.reservedSuffix || 'page',
+      protectReserved: state.reserved,
+      symbols: coerceSymbols(state.symbols),
+      lowercase: state.lowercase,
+      removeStopWords: state.stopwords,
+      customRules: parseCustomRules(state.customRules),
+      debug: state.debug
+    };
+  };
+
+  var serializeState = function(state) {
+    var parts = [];
+    Object.keys(state).forEach(function(key) {
+      var value = state[key];
+      if (value === false || value === '' || value == null) { return; }
+      parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(value === true ? '1' : value));
+    });
+    return parts.join('&');
+  };
+
+  var deserializeState = function(hash) {
+    return hash.replace(/^#/, '').split('&').reduce(function(state, pair) {
+      if (!pair) { return state; }
+      var eq = pair.indexOf('=');
+      if (eq === -1) { return state; }
+      state[decodeURIComponent(pair.slice(0, eq))] = decodeURIComponent(pair.slice(eq + 1));
+      return state;
+    }, {});
+  };
+
+  var loadStored = function() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+  };
+
+  var saveStored = function(state) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    catch (e) { }
+  };
+
+  var applyState = function(state) {
+    if (state.text != null) { dom.input.value = state.text; }
+    if (state.version) { dom.version.value = state.version; }
+    if (state.compare != null) { dom.compare.value = state.compare; }
+    if (state.separator) { dom.separator.value = state.separator; }
+    if (state.locale) { dom.locale.value = state.locale; }
+    if (state.punctuation) { dom.punctuation.value = state.punctuation; }
+    if (state.truncate) { dom.truncate.value = state.truncate; }
+    if (state.maxLength != null) { dom.maxLength.value = state.maxLength; }
+    if (state.priority != null) { dom.priority.value = state.priority; }
+    if (state.reservedSuffix) { dom.reservedSuffix.value = state.reservedSuffix; }
+    if (state.symbols != null) { dom.symbols.value = state.symbols; }
+    if (state.customRules != null) { dom.customRules.value = state.customRules; }
+    dom.lowercase.checked = state.lowercase === true || state.lowercase === '1' || state.lowercase === 'true';
+    dom.stopwords.checked = state.stopwords === true || state.stopwords === '1' || state.stopwords === 'true';
+    dom.reserved.checked = state.reserved === true || state.reserved === '1' || state.reserved === 'true';
+    dom.debug.checked = state.debug === true || state.debug === '1' || state.debug === 'true';
+  };
+
+  var persist = function(state) {
+    saveStored(state);
+    var encoded = serializeState(state);
+    var target = encoded ? '#' + encoded : ' ';
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, '', target);
+    } else {
+      window.location.hash = encoded;
+    }
+  };
+
+  var bootstrapState = function() {
+    var fromHash = deserializeState(window.location.hash);
+    var stored = loadStored();
+    applyState(Object.keys(fromHash).length > 0 ? fromHash : stored);
   };
 
   var runVersion = function(key, text, options) {
@@ -80,25 +168,28 @@
   };
 
   var renderCompare = function(options) {
-    if (!dom.compare.value) {
+    var key = dom.compare.value;
+    if (!key) {
       dom.compareAlert.classList.add('hidden');
       return;
     }
-    var result = unwrap(runVersion(dom.compare.value, dom.input.value, options));
-    dom.compareLabel.textContent = 'versão ' + dom.compare.value;
+    var result = unwrap(runVersion(key, dom.input.value, options));
+    dom.compareLabel.textContent = 'versão ' + key;
     dom.compareOutput.textContent = result.slug;
     dom.compareAlert.classList.remove('hidden');
   };
 
   var convert = function() {
-    var options = getOptions();
-    var primary = unwrap(runVersion(dom.version.value, dom.input.value, options));
+    var state = collectState();
+    var options = optionsFromState(state);
+    var primary = unwrap(runVersion(state.version, state.text, options));
     dom.output.textContent = primary.slug;
     dom.alert.classList.remove('hidden');
     renderTrace(primary.trace);
     renderCompare(options);
-    if (dom.input.value && primary.slug) {
-      pushHistory({text: dom.input.value, slug: primary.slug, at: new Date().toISOString()});
+    persist(state);
+    if (state.text && primary.slug) {
+      pushHistory({text: state.text, slug: primary.slug, at: new Date().toISOString()});
       renderHistory();
     }
   };
@@ -199,8 +290,10 @@
 
   var main = function() {
     cache();
+    bootstrapState();
     bind();
     renderHistory();
+    if (dom.input.value) { convert(); }
     dom.input.focus();
   };
 
