@@ -179,7 +179,7 @@
     dom.compareAlert.classList.remove('hidden');
   };
 
-  var convert = function() {
+  var convert = function(skipHistory) {
     var state = collectState();
     var options = optionsFromState(state);
     var primary = unwrap(runVersion(state.version, state.text, options));
@@ -188,7 +188,7 @@
     renderTrace(primary.trace);
     renderCompare(options);
     persist(state);
-    if (state.text && primary.slug) {
+    if (!skipHistory && state.text && primary.slug) {
       pushHistory({text: state.text, slug: primary.slug, at: new Date().toISOString()});
       renderHistory();
     }
@@ -228,7 +228,7 @@
       chip.title = item.text;
       chip.addEventListener('click', function() {
         dom.input.value = item.text;
-        convert();
+        convert(true);
       });
       dom.historyList.appendChild(chip);
     });
@@ -278,14 +278,14 @@
   };
 
   var bind = function() {
-    dom.convert.addEventListener('click', convert);
-    dom.input.addEventListener('input', convert);
+    dom.convert.addEventListener('click', function() { convert(); });
+    dom.input.addEventListener('input', function() { convert(); });
     dom.copy.addEventListener('click', function() { copyToClipboard(dom.output.textContent); });
     dom.historyClear.addEventListener('click', function() { saveHistory([]); renderHistory(); });
     [dom.version, dom.compare, dom.separator, dom.locale, dom.punctuation, dom.truncate, dom.maxLength, dom.priority, dom.reservedSuffix, dom.symbols, dom.lowercase, dom.stopwords, dom.reserved, dom.debug].forEach(function(el) {
-      el.addEventListener('change', convert);
+      el.addEventListener('change', function() { convert(true); });
     });
-    dom.customRules.addEventListener('input', convert);
+    dom.customRules.addEventListener('input', function() { convert(true); });
   };
 
   var main = function() {
@@ -293,7 +293,7 @@
     bootstrapState();
     bind();
     renderHistory();
-    if (dom.input.value) { convert(); }
+    if (dom.input.value) { convert(true); }
     dom.input.focus();
   };
 
