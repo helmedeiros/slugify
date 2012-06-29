@@ -1,7 +1,18 @@
 body { padding-top: 40px; font-family: 'Roboto', Helvetica, Arial, sans-serif; background: #fdfdfd; }
-.slug-alert { margin-top: 20px; word-break: break-all; }
+.slug-pickers { margin-bottom: 20px; }
+.slug-input-group { margin-bottom: 10px; }
+.slug-alert { margin-top: 10px; word-break: break-all; display: flex; align-items: center; justify-content: space-between; }
+.slug-alert .slug-output { flex: 1; margin-right: 12px; }
+.slug-alert-compare { margin-top: 0; word-break: break-all; }
+.slug-alert-compare small { color: #555; }
+.slug-trace { margin-top: 12px; max-height: 200px; overflow: auto; font-size: 11px; line-height: 1.4; background: #2d2d2d; color: #f0f0f0; border-radius: 4px; padding: 12px; }
+.slug-history { margin-top: 20px; }
+.slug-history h4 { margin-bottom: 8px; font-size: 14px; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
+.slug-history-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+.slug-history-chip { margin: 0 6px 6px 0; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .slug-options { margin-top: 30px; padding: 20px; background: #f7f7f7; border-radius: 4px; border: 1px solid #eee; }
+.slug-options h3 { margin-top: 0; font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px; color: #555; }
 .slug-options label { font-weight: normal; }
 .slug-options .form-group { margin-bottom: 10px; }
-.slug-version { margin-bottom: 20px; }
+.slug-options textarea { font-family: 'Menlo', 'Consolas', monospace; font-size: 12px; }
 footer { margin-top: 40px; padding: 20px 0; border-top: 1px solid #eee; color: #777; text-align: center; }
